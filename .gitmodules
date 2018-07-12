@@ -7,3 +7,6 @@
 [submodule "images/isle-solr"]
 	path = images/isle-solr
 	url = https://github.com/Islandora-Collaboration-Group/isle-solr.git
+[submodule "images/isle-apache"]
+	path = images/isle-apache
+	url = git@github.com:Islandora-Collaboration-Group/isle-apache.git

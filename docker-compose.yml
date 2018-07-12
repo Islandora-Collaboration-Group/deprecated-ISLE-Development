@@ -1,5 +1,8 @@
 version: '3'
 
+#### docker-compose up -d;
+### This is only a test.
+
 services:
   mysql:
     # build:
@@ -13,13 +16,15 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - db-data-ld:/var/lib/mysql
+      - ./data/mysql/dbdata:/var/lib/mysql
       - ./data/mysql/log:/var/log/mysql
+    labels:
+      - traefik.enable=false
 
   fedora:
-    build:
-      context: ./images/isle-fedora
-    image: isle-fedora:refactor-20180623
+    # build:
+    #   context: ./images/isle-fedora
+    image: benjaminrosner/isle-fedora:preRC
     container_name: isle-fedora-ld
     networks:
       - isle-internal
@@ -30,14 +35,19 @@ services:
       - mysql
       - solr
     volumes:
-      - fed-data-ld:/usr/local/fedora/data
+      - ./data/fedora/fedora-data:/usr/local/fedora/data
       - ./data/fedora/log/fedora:/usr/local/fedora/server/logs
       - ./data/fedora/log/tomcat:/usr/local/tomcat/logs
+    labels:
+      - traefik.enable=true
+      - traefik.port=8080
+      - traefik.backend=fedora
+      - "traefik.frontend.rule=Host:isle.localdomain; PathPrefix: /adore-djatoka/, /fedora/"
 
   solr:
-    build:
-      context: ./images/solr
-    image: isle-solr:refactor-20180623
+    # build:
+    #   context: ./images/isle-solr
+    image: benjaminrosner/isle-solr:preRC
     container_name: isle-solr-ld
     networks:
       - isle-internal
@@ -47,53 +57,80 @@ services:
     depends_on:
       - mysql
     volumes:
-      - solr-data-ld:/usr/local/solr/collection1/data
+      - ./data/solr/collection1:/usr/local/solr/collection1/data
       - ./data/solr/logs:/usr/local/tomcat/logs
+    labels:
+      - traefik.enable=true
+      - traefik.port=8080
+      - traefik.backend=solr
+      - "traefik.frontend.rule=Host:isle.localdomain; PathPrefix: /solr/"
 
   apache:
     # build:
-    #   context: ./apache
-    image: islandoracollabgroup/isle-apache:latest
+    #   context: ./images/isle-apache
+    image: benjaminrosner/isle-apache:preRC
     container_name: isle-apache-ld
     networks:
-      isle-internal:
-        aliases:
-          - isle.localdomain
+      - isle-internal
     tty: true
     depends_on:
       - mysql
       - fedora
       - solr
+      - traefik
     volumes:
-      - apache-data-ld:/var/www/html
-      - ./data/apache/log/apache:/var/log/apache2
+      - ./data/apache/webroot:/var/www/html
+      - ./data/apache/log:/var/log/apache2
+    labels:
+      - traefik.enable=true
+      - traefik.port=80
+      - traefik.backend=web
+      - traefik.frontend.rule=Host:isle.localdomain;
 
-  proxy:
-    # build:
-    #   context: ./proxy
-    image: islandoracollabgroup/isle-proxy:latest
-    container_name: isle-proxy
+  traefik:
+    image: traefik:latest
     networks:
-      isle-internal:
-      isle-external:
+      - isle-internal
     ports:
       - "80:80"
       - "443:443"
-    depends_on:
-      - mysql
-      - fedora
-      - solr
-      - apache
-    command: [nginx-debug, '-g', 'daemon off;']
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik/traefik.toml:/traefik.toml
+      - ./traefik/isle.localdomain:/certs/isle.localdomain
+    labels:
+      - traefik.enable=true
+      - traefik.port=8080
+      - traefik.backend=traefik
+      - traefik.frontend.rule=Host:admin.isle.localdomain;
+
+  # proxy:
+  #   # build:
+  #   #   context: ./proxy
+  #   image: islandoracollabgroup/isle-proxy:latest
+  #   container_name: isle-proxy
+  #   networks:
+  #     isle-internal:
+  #     isle-external:
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   depends_on:
+  #     - mysql
+  #     - fedora
+  #     - solr
+  #     - apache
+  #   command: [nginx-debug, '-g', 'daemon off;']
 
 
 # Defined networks
 networks:
   isle-internal:
-  isle-external:
+  # isle-external:
 
-volumes:
-  db-data-ld:
-  fed-data-ld:
-  solr-data-ld:
-  apache-data-ld:
+# volumes:
+#   db-data-ld:
+#   fed-data-ld:
+#   solr-data-ld:
+#   apache-data-ld:

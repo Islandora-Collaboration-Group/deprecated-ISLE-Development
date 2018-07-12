@@ -15,14 +15,14 @@ NEW IMAGES QUEUED: isle-imageservices.
     - `git clone --recurse-submodules https://github.com/Islandora-Collaboration-Group/ISLE-Development.git`
 2. Change directory to the cloned directory:
     - `cd ISLE-development` (by default)
-3. Build the tomcat-base image locally:
+<!-- 3. Build the tomcat-base image locally:
     - `docker build -t isle-tomcat:latest --rm images/isle-tomcat/` 
 4. When isle-tomcat is complete, build the rest of the refactored stack:
-    - `docker-compose build`
-5. When the build has completed, launch the ISLE stack for testing:
+    - `docker-compose build` -->
+3. When the build has completed, launch the ISLE stack for testing:
     - `docker-compose up -d`
-6. Install Islandora on the isle-apache-ld container:
-    - `docker exec -it isle-apache-ld bash /tmp/isle_drupal_build_tools/install_isle_ld_site.sh`
+4. Install Islandora on the isle-apache-ld container:
+    - `docker exec -it isle-apache-ld bash /utility-scripts/isle_drupal_build_tools/isle_islandora_installer.sh`
 
 
 ## Important Notes, Ports, Pages and Usernames/Passwords
@@ -48,4 +48,4 @@ All Tomcat services come with the default users and passwords:
 * `manager`:`isle_manager`
 
 Islandora user and pass (default):
- * `isle_localdomain_admin`:`isle_localdomain_adminpw2018`
+ * `isle`:`isle`
