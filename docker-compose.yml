@@ -1,7 +1,7 @@
 version: '3'
 
 #### docker-compose up -d;
-### This is only a test.
+### This is only a test.  Keep calm and ISLE on.
 
 services:
   mysql:
@@ -16,7 +16,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./data/mysql/dbdata:/var/lib/mysql
+      - db-data-ld:/var/lib/mysql
       - ./data/mysql/log:/var/log/mysql
     labels:
       - traefik.enable=false
@@ -29,13 +29,13 @@ services:
     networks:
       - isle-internal
     ports:
-      - "8080:8080"
+      - "8081:8080"
     tty: true
     depends_on:
       - mysql
       - solr
     volumes:
-      - ./data/fedora/fedora-data:/usr/local/fedora/data
+      - fed-data-ld:/usr/local/fedora/data
       - ./data/fedora/log/fedora:/usr/local/fedora/server/logs
       - ./data/fedora/log/tomcat:/usr/local/tomcat/logs
     labels:
@@ -57,7 +57,7 @@ services:
     depends_on:
       - mysql
     volumes:
-      - ./data/solr/collection1:/usr/local/solr/collection1/data
+      - solr-data-ld:/usr/local/solr
       - ./data/solr/logs:/usr/local/tomcat/logs
     labels:
       - traefik.enable=true
@@ -79,7 +79,7 @@ services:
       - solr
       - traefik
     volumes:
-      - ./data/apache/webroot:/var/www/html
+      - apache-data-ld:/var/www/html
       - ./data/apache/log:/var/log/apache2
     labels:
       - traefik.enable=true
@@ -129,8 +129,8 @@ networks:
   isle-internal:
   # isle-external:
 
-# volumes:
-#   db-data-ld:
-#   fed-data-ld:
-#   solr-data-ld:
-#   apache-data-ld:
+volumes:
+  db-data-ld:
+  fed-data-ld:
+  solr-data-ld:
+  apache-data-ld:

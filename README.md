@@ -1,8 +1,8 @@
 # ISLE Docker Development Repo
 Development repo for testing.
 
-IMAGES REFACTORED: [`isle-tomcat`](https://github.com/Islandora-Collaboration-Group/isle-tomcat/) (new base image), [`isle-fedora`](https://github.com/Islandora-Collaboration-Group/isle-fedora/), [`isle-solr`](https://github.com/Islandora-Collaboration-Group/isle-solr/).  
-IMAGES QUEUED: isle-apache, isle-proxy.  
+IMAGES REFACTORED: [`isle-tomcat`](https://github.com/Islandora-Collaboration-Group/isle-tomcat/) (new base image), [`isle-fedora`](https://github.com/Islandora-Collaboration-Group/isle-fedora/), [`isle-solr`](https://github.com/Islandora-Collaboration-Group/isle-solr/), [`isle-apache`](https://github.com/Islandora-Collaboration-Group/isle-apache/).  
+IMAGES QUEUED: isle-proxy.  
 NEW IMAGES QUEUED: isle-imageservices.
 
 ## Requirements  
@@ -37,8 +37,9 @@ Note that some images are unrefactored yet, and may not cooperate in the new sta
   * **You may need to point directly to the IP address of isle-apache, here's how:**
     - `docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' isle-apache-ld`
     - Copy the IP and browse to it.  `http://{IP}/`
-* Fedora is available at http://localhost:8080/
+* Fedora is available at http://localhost:8081/
 * Solr is available at http://localhost:8091/
+* Traefik is available at http://localhost:8080/
 
 ### Users and Passwords
 Read as username:password
