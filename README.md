@@ -7,7 +7,7 @@ IMAGES REFACTORED: [`isle-tomcat`](https://github.com/Islandora-Collaboration-Gr
 ## Requirements  
 * Docker-CE or EE
 * Docker-compose
-* Time required > 30 minutes.
+* Time required < 30 minutes.
 
 ## How to build and run development images.  
 1. Clone this repo <!-- OR wget the docker-compose.yml -->
