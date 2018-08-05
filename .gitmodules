@@ -1,12 +1,12 @@
 [submodule "images/isle-tomcat"]
 	path = images/isle-tomcat
-	url = https://github.com/Islandora-Collaboration-Group/isle-tomcat.git
+	url = git@github.com:Islandora-Collaboration-Group/isle-tomcat.git
 [submodule "images/isle-fedora"]
 	path = images/isle-fedora
-	url = https://github.com/Islandora-Collaboration-Group/isle-fedora.git
+	url = git@github.com:Islandora-Collaboration-Group/isle-fedora.git
 [submodule "images/isle-solr"]
 	path = images/isle-solr
-	url = https://github.com/Islandora-Collaboration-Group/isle-solr.git
+	url = git@github.com:Islandora-Collaboration-Group/isle-solr.git
 [submodule "images/isle-apache"]
 	path = images/isle-apache
 	url = git@github.com:Islandora-Collaboration-Group/isle-apache.git
