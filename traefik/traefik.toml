@@ -7,14 +7,14 @@
 # Optional
 # Default: false
 #
-debug = true
+# debug = true
 
 # Log level
 #
 # Optional
 # Default: "ERROR"
 #
-logLevel = "DEBUG"
+# logLevel = "DEBUG"
 
 # Periodically check if a new version has been released.
 #
@@ -43,7 +43,7 @@ logLevel = "DEBUG"
 # Optional
 # Default: false
 #
-# InsecureSkipVerify = true
+InsecureSkipVerify = true
 
 # Register Certificates in the RootCA.
 #
@@ -153,20 +153,6 @@ defaultEntryPoints = ["http", "https"]
   # dashboard = false
 
 ################################################################
-# Ping configuration
-################################################################
-
-# Enable ping
-[ping]
-
-  # Name of the related entry point
-  #
-  # Optional
-  # Default: "traefik"
-  #
-  # entryPoint = "traefik"
-
-################################################################
 # Docker configuration backend
 ################################################################
 
@@ -194,7 +180,7 @@ domain = "isle.localdomain"
 # Optional
 # Default: true
 #
-# exposedbydefault = false
+exposedbydefault = false
 
 # Enable watch docker changes.
 #

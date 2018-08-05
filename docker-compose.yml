@@ -6,15 +6,13 @@ version: '3'
 services:
   mysql:
     # build:
-    #   context: ./mysql
+    #   context: ./images/mysql
     image: islandoracollabgroup/isle-mysql:latest
     container_name: isle-mysql-ld
     environment:
       - MYSQL_ROOT_PASSWORD=ild_mysqlrt_2018
     networks:
       - isle-internal
-    # ports:
-    #   - "3306:3306"
     volumes:
       - db-data-ld:/var/lib/mysql
       - ./data/mysql/log:/var/log/mysql
@@ -24,7 +22,7 @@ services:
   fedora:
     # build:
     #   context: ./images/isle-fedora
-    image: benjaminrosner/isle-fedora:preRC
+    image: benjaminrosner/isle-fedora:development
     container_name: isle-fedora-ld
     networks:
       - isle-internal
@@ -42,17 +40,17 @@ services:
       - traefik.enable=true
       - traefik.port=8080
       - traefik.backend=fedora
-      - "traefik.frontend.rule=Host:isle.localdomain; PathPrefix: /adore-djatoka/, /fedora/"
+      - "traefik.frontend.rule=Host:isle.localdomain; /fedora/"
 
   solr:
     # build:
     #   context: ./images/isle-solr
-    image: benjaminrosner/isle-solr:preRC
+    image: benjaminrosner/isle-solr:development
     container_name: isle-solr-ld
     networks:
       - isle-internal
     ports:
-      - "8091:8080"
+      - "8082:8080"
     tty: true
     depends_on:
       - mysql
@@ -65,10 +63,29 @@ services:
       - traefik.backend=solr
       - "traefik.frontend.rule=Host:isle.localdomain; PathPrefix: /solr/"
 
+  image-services:
+    # build:
+    #   context: ./images/isle-imageservices
+    image: benjaminrosner/isle-imageservices:development
+    container_name: isle-images
+    networks:
+      - isle-internal
+    depends_on:
+      - apache
+      - fedora
+    ports:
+      - "8083:8080"
+    volumes:
+      - ./data/img/logs:/usr/local/tomcat/logs
+    # labels:
+    #   - "traefik.frontend.headers.customResponseHeaders=Access-Control-Allow-Origin: *"
+    #   - "traefik.frontend.headers.customRequestHeaders=Access-Control-Allow-Origin: *"
+    #   - "traefik.frontend.rule=Host:isle.localdomain; PathPrefix:/adore-djatoka/, /adore-djatoka/resolver/, /cantaloupe/, /cantaloupe/iiif/"
+
   apache:
     # build:
     #   context: ./images/isle-apache
-    image: benjaminrosner/isle-apache:preRC
+    image: benjaminrosner/isle-apache:development
     container_name: isle-apache-ld
     networks:
       - isle-internal
@@ -86,6 +103,9 @@ services:
       - traefik.port=80
       - traefik.backend=web
       - traefik.frontend.rule=Host:isle.localdomain;
+      - "traefik.frontend.headers.customResponseHeaders=Access-Control-Allow-Origin: *"
+      - "traefik.frontend.headers.customRequestHeaders=Access-Control-Allow-Origin: *"
+
 
   traefik:
     image: traefik:latest
@@ -105,25 +125,6 @@ services:
       - traefik.port=8080
       - traefik.backend=traefik
       - traefik.frontend.rule=Host:admin.isle.localdomain;
-
-  # proxy:
-  #   # build:
-  #   #   context: ./proxy
-  #   image: islandoracollabgroup/isle-proxy:latest
-  #   container_name: isle-proxy
-  #   networks:
-  #     isle-internal:
-  #     isle-external:
-  #   ports:
-  #     - "80:80"
-  #     - "443:443"
-  #   depends_on:
-  #     - mysql
-  #     - fedora
-  #     - solr
-  #     - apache
-  #   command: [nginx-debug, '-g', 'daemon off;']
-
 
 # Defined networks
 networks:

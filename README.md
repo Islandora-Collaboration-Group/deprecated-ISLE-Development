@@ -2,9 +2,7 @@
 Development repo for testing.  
 NOT FOR PRODUCTION!
 
-IMAGES REFACTORED: [`isle-tomcat`](https://github.com/Islandora-Collaboration-Group/isle-tomcat/) (new base image), [`isle-fedora`](https://github.com/Islandora-Collaboration-Group/isle-fedora/), [`isle-solr`](https://github.com/Islandora-Collaboration-Group/isle-solr/), [`isle-apache`](https://github.com/Islandora-Collaboration-Group/isle-apache/).  
-IMAGES in Progress: isle-proxy.  
-NEW IMAGES QUEUED: isle-imageservices.
+IMAGES REFACTORED: [`isle-tomcat`](https://github.com/Islandora-Collaboration-Group/isle-tomcat/) (new base image), [`isle-fedora`](https://github.com/Islandora-Collaboration-Group/isle-fedora/), [`isle-solr`](https://github.com/Islandora-Collaboration-Group/isle-solr/), [`isle-apache`](https://github.com/Islandora-Collaboration-Group/isle-apache/), [`isle-imageservices`](https://github.com/Islandora-Collaboration-Group/isle-imageservices/).  
 
 ## Requirements  
 * Docker-CE or EE
@@ -12,9 +10,9 @@ NEW IMAGES QUEUED: isle-imageservices.
 * Time required > 30 minutes.
 
 ## How to build and run development images.  
-1. Clone this repo OR wget the docker-compose.yml
-    - `git clone https://github.com/Islandora-Collaboration-Group/ISLE-Development.git` OR 
-    - `wget https://github.com/Islandora-Collaboration-Group/ISLE-Development/blob/development/docker-compose.yml`
+1. Clone this repo <!-- OR wget the docker-compose.yml -->
+    - `git clone https://github.com/Islandora-Collaboration-Group/ISLE-Development.git` 
+    <!-- - `wget https://github.com/Islandora-Collaboration-Group/ISLE-Development/blob/development/docker-compose.yml` -->
 <!-- 1. Clone this repository recursively. In terminal:
     - `git clone --recurse-submodules https://github.com/Islandora-Collaboration-Group/ISLE-Development.git`
 2. Change directory to the cloned directory:
@@ -24,13 +22,15 @@ NEW IMAGES QUEUED: isle-imageservices.
 4. When isle-tomcat is complete, build the rest of the refactored stack:
     - `docker-compose build` -->
 2. Change directory to the cloned directory:
-    - `cd ISLE-development` (by default) OR
-    - create a folder and move the docker-compose.yml there!
-3. Launch the ISLE preRC stack for testing:
+    - `cd ISLE-development` (by default)
+    <!-- - create a folder and move the docker-compose.yml there! -->
+3. Pull the latest images:
+    - `docker-compose pull`
+4. Launch the ISLE preRC stack for testing:
     - `docker-compose up -d`
-4. Install Islandora on the isle-apache-ld container:
+5. Install Islandora on the isle-apache-ld container:
     - `docker exec -it isle-apache-ld bash /utility-scripts/isle_drupal_build_tools/isle_islandora_installer.sh`
-5. To wrap up testing:
+6. To wrap up testing:
     - In the folder with the docker-compose.yml `docker-compose down -v`
 
 
@@ -46,10 +46,11 @@ Note that some images are unrefactored yet, and may not cooperate in the new sta
   * **You may need to point directly to the IP address of isle-apache, here's how:**
     - `docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' isle-apache-ld`
     - Copy the IP and browse to it.  `http://{IP}/`
-* Fedora is available at https://isle.localdomain/fedora OR http://localhost:8081
-* Adore-djatoka is available at https://isle.localdomain/adore-djatoka 
-* Solr is available at https://isle.localdomain/solr OR http://localhost:8091/
 * Traefik is available at https://admin.isle.localdomain OR http://localhost:8080/
+* Fedora is available at https://isle.localdomain/fedora OR http://localhost:8081/
+* Solr is available at https://isle.localdomain/solr OR http://localhost:8082/
+* Image Services are available at http://localhost:8083/ (nb: not routed through proxy.)
+
 
 ### Users and Passwords
 Read as username:password
