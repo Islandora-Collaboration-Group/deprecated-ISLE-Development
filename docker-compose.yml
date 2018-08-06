@@ -4,6 +4,21 @@ version: '3'
 ### This is only a test.  Keep calm and ISLE on.
 
 services:
+  isle-portainer: ## Renamed to avoid conflicts on systems/servers with portainer already running.
+    image: portainer/portainer
+    container_name: isle-portainer
+    command: -H unix:///var/run/docker.sock
+    networks:
+      - isle-internal
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    labels:
+      - traefik.enable=true
+      - traefik.port=9000
+      - traefik.backend=port-isle
+      - "traefik.frontend.rule=Host:portainer.isle.localdomain;"
+
   mysql:
     # build:
     #   context: ./images/mysql
@@ -40,7 +55,7 @@ services:
       - traefik.enable=true
       - traefik.port=8080
       - traefik.backend=fedora
-      - "traefik.frontend.rule=Host:isle.localdomain; /fedora/"
+      - "traefik.frontend.rule=Host:isle.localdomain; PathPrefix: /fedora"
 
   solr:
     # build:
@@ -61,7 +76,7 @@ services:
       - traefik.enable=true
       - traefik.port=8080
       - traefik.backend=solr
-      - "traefik.frontend.rule=Host:isle.localdomain; PathPrefix: /solr/"
+      - "traefik.frontend.rule=Host:isle.localdomain; PathPrefix: /solr"
 
   image-services:
     # build:
@@ -77,10 +92,13 @@ services:
       - "8083:8080"
     volumes:
       - ./data/img/logs:/usr/local/tomcat/logs
-    # labels:
-    #   - "traefik.frontend.headers.customResponseHeaders=Access-Control-Allow-Origin: *"
-    #   - "traefik.frontend.headers.customRequestHeaders=Access-Control-Allow-Origin: *"
-    #   - "traefik.frontend.rule=Host:isle.localdomain; PathPrefix:/adore-djatoka/, /adore-djatoka/resolver/, /cantaloupe/, /cantaloupe/iiif/"
+    labels:
+      - traefik.enable=true
+      - traefik.port=8080
+      - traefik.backend=isle-images
+      - "traefik.frontend.headers.customResponseHeaders=Access-Control-Allow-Origin: *" # Debug
+      - "traefik.frontend.headers.customRequestHeaders=Access-Control-Allow-Origin: *" # Debug
+      - "traefik.frontend.rule=Host:isle.localdomain,images.isle.localdomain; PathPrefix: /adore-djatoka, /cantaloupe"
 
   apache:
     # build:
@@ -103,15 +121,17 @@ services:
       - traefik.port=80
       - traefik.backend=web
       - traefik.frontend.rule=Host:isle.localdomain;
-      - "traefik.frontend.headers.customResponseHeaders=Access-Control-Allow-Origin: *"
-      - "traefik.frontend.headers.customRequestHeaders=Access-Control-Allow-Origin: *"
+      - "traefik.frontend.headers.customResponseHeaders=Access-Control-Allow-Origin: *" # Debug
+      - "traefik.frontend.headers.customRequestHeaders=Access-Control-Allow-Origin: *" # Debug
 
 
   traefik:
     image: traefik:latest
     container_name: isle-proxy
     networks:
-      - isle-internal
+      isle-internal:
+        aliases:
+          - isle.localdomain
     ports:
       - "80:80"
       - "443:443"
@@ -136,3 +156,4 @@ volumes:
   fed-data-ld:
   solr-data-ld:
   apache-data-ld:
+  portainer_data:
