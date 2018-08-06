@@ -40,6 +40,8 @@ There are additional steps such as adding isle-localdomain to your etc/hosts whi
 
 Note that some images are unrefactored yet, and may not cooperate in the new stack. isle-proxy and isle-apache remain.
 
+[Portainer](https://portainer.io/) is a GUI for managing Docker containers. It has been built into ISLE for your convenience.
+
 ### Locations, Ports:
 * Make sure your /etc/hosts points isle.localdomain to 127.0.0.1. See original docs on how-to.
 * Islandora is available at https://isle.localdomain
@@ -50,6 +52,7 @@ Note that some images are unrefactored yet, and may not cooperate in the new sta
 * Fedora is available at https://isle.localdomain/fedora OR http://localhost:8081/
 * Solr is available at https://isle.localdomain/solr OR http://localhost:8082/
 * Image Services are available at http://localhost:8083/ (nb: not routed through proxy.)
+* Portainer is available at https://portainer.isle.localdomain OR http://localhost:9000/
 
 
 ### Users and Passwords
@@ -61,3 +64,6 @@ Islandora (Drupal) user and pass (default):
 All Tomcat services come with the default users and passwords:
 * `admin`:`isle_admin`
 * `manager`:`isle_manager`
+
+Portainer's authentication can be configured: 
+* [Portainer Configuration](https://portainer.readthedocs.io/en/stable/configuration.html)
