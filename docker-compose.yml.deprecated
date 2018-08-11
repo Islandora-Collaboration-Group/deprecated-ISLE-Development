@@ -7,18 +7,17 @@ services:
   isle-portainer: ## Renamed to avoid conflicts on systems/servers with portainer already running.
     image: portainer/portainer
     container_name: isle-portainer
-    command: -H unix:///var/run/docker.sock --no-auth
+    command: -H unix:///var/run/docker.sock
     networks:
       - isle-internal
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - isle_portainer_data:/data
+      - portainer_data:/data
     labels:
       - traefik.enable=true
       - traefik.port=9000
       - traefik.backend=port-isle
-      - traefik.docker.network=${COMPOSE_PROJECT_NAME}_isle-internal
-      - "traefik.frontend.rule=Host:portainer.${BASE_DOMAIN};"
+      - "traefik.frontend.rule=Host:portainer.isle.localdomain;"
 
   mysql:
     # build:
@@ -26,7 +25,7 @@ services:
     image: islandoracollabgroup/isle-mysql:latest
     container_name: isle-mysql-ld
     environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=ild_mysqlrt_2018
     networks:
       - isle-internal
     volumes:
@@ -53,8 +52,10 @@ services:
       - ./data/fedora/log/fedora:/usr/local/fedora/server/logs
       - ./data/fedora/log/tomcat:/usr/local/tomcat/logs
     labels:
-      - traefik.docker.network=${COMPOSE_PROJECT_NAME}_isle-internal
-      - "traefik.frontend.rule=Host:${BASE_DOMAIN}; PathPrefix: /fedora"      
+      - traefik.enable=true
+      - traefik.port=8080
+      - traefik.backend=fedora
+      - "traefik.frontend.rule=Host:isle.localdomain; PathPrefix: /fedora"
 
   solr:
     # build:
@@ -72,8 +73,10 @@ services:
       - solr-data-ld:/usr/local/solr
       - ./data/solr/logs:/usr/local/tomcat/logs
     labels:
-      - traefik.docker.network=${COMPOSE_PROJECT_NAME}_isle-internal
-      - "traefik.frontend.rule=Host:${BASE_DOMAIN}; PathPrefix: /solr"
+      - traefik.enable=true
+      - traefik.port=8080
+      - traefik.backend=solr
+      - "traefik.frontend.rule=Host:isle.localdomain; PathPrefix: /solr"
 
   image-services:
     # build:
@@ -90,10 +93,12 @@ services:
     volumes:
       - ./data/img/logs:/usr/local/tomcat/logs
     labels:
-      - traefik.docker.network=${COMPOSE_PROJECT_NAME}_isle-internal
-      - "traefik.frontend.headers.customResponseHeaders=Access-Control-Allow-Origin: *||X-Forwarded-Path: /cantaloupe" # Debug
-      - "traefik.frontend.headers.customRequestHeaders=Access-Control-Allow-Origin: *||X-Forwarded-Path: /cantaloupe" # Debug
-      - "traefik.frontend.rule=Host:images.${BASE_DOMAIN}; PathPrefix: /adore-djatoka, /cantaloupe"
+      - traefik.enable=true
+      - traefik.port=8080
+      - traefik.backend=isle-images
+      - "traefik.frontend.headers.customResponseHeaders=Access-Control-Allow-Origin: *" # Debug
+      - "traefik.frontend.headers.customRequestHeaders=Access-Control-Allow-Origin: *" # Debug
+      - "traefik.frontend.rule=Host:isle.localdomain,images.isle.localdomain; PathPrefix: /adore-djatoka, /cantaloupe"
 
   apache:
     # build:
@@ -101,7 +106,7 @@ services:
     image: benjaminrosner/isle-apache:development
     container_name: isle-apache-ld
     networks:
-      isle-internal:
+      - isle-internal
     tty: true
     depends_on:
       - mysql
@@ -112,8 +117,13 @@ services:
       - apache-data-ld:/var/www/html
       - ./data/apache/log:/var/log/apache2
     labels:
-      - traefik.docker.network=${COMPOSE_PROJECT_NAME}_isle-internal
-      - "traefik.frontend.rule=Host:${BASE_DOMAIN}; PathPrefix: /, /adore-djatoka, /cantaloupe"
+      - traefik.enable=true
+      - traefik.port=80
+      - traefik.backend=web
+      - traefik.frontend.rule=Host:isle.localdomain;
+      - "traefik.frontend.headers.customResponseHeaders=Access-Control-Allow-Origin: *" # Debug
+      - "traefik.frontend.headers.customRequestHeaders=Access-Control-Allow-Origin: *" # Debug
+
 
   traefik:
     image: traefik:latest
@@ -121,30 +131,29 @@ services:
     networks:
       isle-internal:
         aliases:
-          - ${BASE_DOMAIN}
-      isle-external:
+          - isle.localdomain
     ports:
       - "80:80"
       - "443:443"
       - "8080:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./config/traefik/traefik.toml:/traefik.toml
-      - ./config/traefik/isle.localdomain:/certs/isle.localdomain
+      - ./traefik/traefik.toml:/traefik.toml
+      - ./traefik/isle.localdomain:/certs/isle.localdomain
     labels:
       - traefik.enable=true
       - traefik.port=8080
       - traefik.backend=traefik
-      - traefik.frontend.rule=Host:admin.${BASE_DOMAIN};
+      - traefik.frontend.rule=Host:admin.isle.localdomain;
 
 # Defined networks
 networks:
   isle-internal:
-  isle-external:
+  # isle-external:
 
 volumes:
   db-data-ld:
   fed-data-ld:
   solr-data-ld:
   apache-data-ld:
-  isle_portainer_data:
+  portainer_data:
