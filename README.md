@@ -2,14 +2,20 @@
 Development repo for testing.  
 NOT FOR PRODUCTION!
 
-IMAGES REFACTORED: [`isle-tomcat`](https://github.com/Islandora-Collaboration-Group/isle-tomcat/) (new base image), [`isle-fedora`](https://github.com/Islandora-Collaboration-Group/isle-fedora/), [`isle-solr`](https://github.com/Islandora-Collaboration-Group/isle-solr/), [`isle-apache`](https://github.com/Islandora-Collaboration-Group/isle-apache/), [`isle-imageservices`](https://github.com/Islandora-Collaboration-Group/isle-imageservices/).  
+Docker Image GitHub Repos that comprise this stack: 
+ - [`isle-tomcat`](https://github.com/Islandora-Collaboration-Group/isle-tomcat/) (base image)
+ - [`isle-fedora`](https://github.com/Islandora-Collaboration-Group/isle-fedora/)
+ - [`isle-solr`](https://github.com/Islandora-Collaboration-Group/isle-solr/)
+ - [`isle-apache`](https://github.com/Islandora-Collaboration-Group/isle-apache/)
+ - [`isle-imageservices`](https://github.com/Islandora-Collaboration-Group/isle-imageservices/)
 
 ## Requirements  
 * Docker-CE or EE
 * Docker-compose
+* Git
 * Time required > 30 minutes.
 
-## How to build and run development images.  
+## Quick Start
 1. Clone this repo <!-- OR wget the docker-compose.yml -->
     - `git clone https://github.com/Islandora-Collaboration-Group/ISLE-Development.git` 
     <!-- - `wget https://github.com/Islandora-Collaboration-Group/ISLE-Development/blob/development/docker-compose.yml` -->
@@ -37,8 +43,6 @@ IMAGES REFACTORED: [`isle-tomcat`](https://github.com/Islandora-Collaboration-Gr
 ## Important Notes, Ports, Pages and Usernames/Passwords
 @SEE: https://github.com/Islandora-Collaboration-Group/ISLE  
 There are additional steps such as adding isle-localdomain to your etc/hosts which will not be covered here. 
-
-Note that some images are unrefactored yet, and may not cooperate in the new stack. isle-proxy and isle-apache remain.
 
 ### Locations, Ports:
 * Make sure your /etc/hosts points isle.localdomain to 127.0.0.1. See original docs on how-to.

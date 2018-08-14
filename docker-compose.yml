@@ -100,6 +100,8 @@ services:
     #   context: ./images/isle-apache
     image: benjaminrosner/isle-apache:development
     container_name: isle-apache-ld
+    environment:
+      - PULL_ISLE_BUILD_TOOLS=true # Defaults to true.
     networks:
       isle-internal:
     tty: true
