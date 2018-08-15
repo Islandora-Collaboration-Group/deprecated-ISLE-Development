@@ -13,7 +13,7 @@ Docker Image GitHub Repos that comprise this stack:
 * Docker-CE or EE
 * Docker-compose
 * Git
-* Time required > 30 minutes.
+* Time required < 30 minutes.
 
 ## Quick Start
 1. Please read: [ISLE Release Candidate (RC): How to Test](https://docs.google.com/document/d/1VUiI_bXo6SLqqUjmInVjBg3-cs40Vj7I_92txjFUoQg/edit#heading=h.1e4943m60lsh)
