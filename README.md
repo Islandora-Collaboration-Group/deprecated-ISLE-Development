@@ -16,7 +16,8 @@ Docker Image GitHub Repos that comprise this stack:
 * Time required > 30 minutes.
 
 ## Quick Start
-1. Clone this repo <!-- OR wget the docker-compose.yml -->
+1. Please read: [ISLE Release Candidate (RC): How to Test](https://docs.google.com/document/d/1VUiI_bXo6SLqqUjmInVjBg3-cs40Vj7I_92txjFUoQg/edit#heading=h.1e4943m60lsh)
+2. Clone this repo <!-- OR wget the docker-compose.yml -->
     - `git clone https://github.com/Islandora-Collaboration-Group/ISLE-Development.git` 
     <!-- - `wget https://github.com/Islandora-Collaboration-Group/ISLE-Development/blob/development/docker-compose.yml` -->
 <!-- 1. Clone this repository recursively. In terminal:
@@ -27,16 +28,16 @@ Docker Image GitHub Repos that comprise this stack:
     - `docker build -t isle-tomcat:latest --rm images/isle-tomcat/` 
 4. When isle-tomcat is complete, build the rest of the refactored stack:
     - `docker-compose build` -->
-2. Change directory to the cloned directory:
+3. Change directory to the cloned directory:
     - `cd ISLE-development` (by default)
     <!-- - create a folder and move the docker-compose.yml there! -->
-3. Pull the latest images:
+4. Pull the latest images:
     - `docker-compose pull`
-4. Launch the ISLE preRC stack for testing:
+5. Launch the ISLE preRC stack for testing:
     - `docker-compose up -d`
-5. Install Islandora on the isle-apache-ld container:
+6. Install Islandora on the isle-apache-ld container:
     - `docker exec -it isle-apache-ld bash /utility-scripts/isle_drupal_build_tools/isle_islandora_installer.sh`
-6. To wrap up testing:
+7. To wrap up testing:
     - In the folder with the docker-compose.yml `docker-compose down -v`
 
 
