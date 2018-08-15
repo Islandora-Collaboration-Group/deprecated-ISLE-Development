@@ -2,15 +2,22 @@
 Development repo for testing.  
 NOT FOR PRODUCTION!
 
-IMAGES REFACTORED: [`isle-tomcat`](https://github.com/Islandora-Collaboration-Group/isle-tomcat/) (new base image), [`isle-fedora`](https://github.com/Islandora-Collaboration-Group/isle-fedora/), [`isle-solr`](https://github.com/Islandora-Collaboration-Group/isle-solr/), [`isle-apache`](https://github.com/Islandora-Collaboration-Group/isle-apache/), [`isle-imageservices`](https://github.com/Islandora-Collaboration-Group/isle-imageservices/).  
+Docker Image GitHub Repos that comprise this stack: 
+ - [`isle-tomcat`](https://github.com/Islandora-Collaboration-Group/isle-tomcat/) (base image)
+ - [`isle-fedora`](https://github.com/Islandora-Collaboration-Group/isle-fedora/)
+ - [`isle-solr`](https://github.com/Islandora-Collaboration-Group/isle-solr/)
+ - [`isle-apache`](https://github.com/Islandora-Collaboration-Group/isle-apache/)
+ - [`isle-imageservices`](https://github.com/Islandora-Collaboration-Group/isle-imageservices/)
 
 ## Requirements  
 * Docker-CE or EE
 * Docker-compose
+* Git
 * Time required < 30 minutes.
 
-## How to build and run development images.  
-1. Clone this repo <!-- OR wget the docker-compose.yml -->
+## Quick Start
+1. Please read: [ISLE Release Candidate (RC): How to Test](https://docs.google.com/document/d/1VUiI_bXo6SLqqUjmInVjBg3-cs40Vj7I_92txjFUoQg/edit#heading=h.1e4943m60lsh)
+2. Clone this repo <!-- OR wget the docker-compose.yml -->
     - `git clone https://github.com/Islandora-Collaboration-Group/ISLE-Development.git` 
     <!-- - `wget https://github.com/Islandora-Collaboration-Group/ISLE-Development/blob/development/docker-compose.yml` -->
 <!-- 1. Clone this repository recursively. In terminal:
@@ -21,16 +28,16 @@ IMAGES REFACTORED: [`isle-tomcat`](https://github.com/Islandora-Collaboration-Gr
     - `docker build -t isle-tomcat:latest --rm images/isle-tomcat/` 
 4. When isle-tomcat is complete, build the rest of the refactored stack:
     - `docker-compose build` -->
-2. Change directory to the cloned directory:
+3. Change directory to the cloned directory:
     - `cd ISLE-development` (by default)
     <!-- - create a folder and move the docker-compose.yml there! -->
-3. Pull the latest images:
+4. Pull the latest images:
     - `docker-compose pull`
-4. Launch the ISLE preRC stack for testing:
+5. Launch the ISLE preRC stack for testing:
     - `docker-compose up -d`
-5. Install Islandora on the isle-apache-ld container:
+6. Install Islandora on the isle-apache-ld container:
     - `docker exec -it isle-apache-ld bash /utility-scripts/isle_drupal_build_tools/isle_islandora_installer.sh`
-6. To wrap up testing:
+7. To wrap up testing:
     - In the folder with the docker-compose.yml `docker-compose down -v`
 
 
@@ -38,18 +45,16 @@ IMAGES REFACTORED: [`isle-tomcat`](https://github.com/Islandora-Collaboration-Gr
 @SEE: https://github.com/Islandora-Collaboration-Group/ISLE  
 There are additional steps such as adding isle-localdomain to your etc/hosts which will not be covered here. 
 
-Note that some images are unrefactored yet, and may not cooperate in the new stack. isle-proxy and isle-apache remain.
-
 ### Locations, Ports:
 * Make sure your /etc/hosts points isle.localdomain to 127.0.0.1. See original docs on how-to.
-* Islandora is available at https://isle.localdomain
+* Islandora is available at http://isle.localdomain
   * **You may need to point directly to the IP address of isle-apache, here's how:**
     - `docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' isle-apache-ld`
     - Copy the IP and browse to it.  `http://{IP}/`
-* Traefik is available at https://admin.isle.localdomain OR http://localhost:8080/
-* Fedora is available at https://isle.localdomain/fedora OR http://localhost:8081/
-* Solr is available at https://isle.localdomain/solr OR http://localhost:8082/
-* Image Services are available at http://localhost:8083/ (nb: not routed through proxy.)
+* Traefik is available at http://admin.isle.localdomain OR http://localhost:8080/
+* Fedora is available at http://isle.localdomain/fedora OR http://localhost:8081/
+* Solr is available at http://isle.localdomain/solr OR http://localhost:8082/
+* Image Services are available at http://images.isle.localdomain OR http://localhost:8083/
 
 
 ### Users and Passwords
