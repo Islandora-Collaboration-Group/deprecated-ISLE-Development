@@ -43,7 +43,6 @@ Docker Image GitHub Repos that comprise this stack:
 
 ## Important Notes, Ports, Pages and Usernames/Passwords
 @SEE: https://github.com/Islandora-Collaboration-Group/ISLE  
-
 [Portainer](https://portainer.io/) is a GUI for managing Docker containers. It has been built into ISLE for your convenience.
 
 ### Locations, Ports:
@@ -69,4 +68,5 @@ All Tomcat services come with the default users and passwords:
 * `manager`:`isle_manager`
 
 Portainer's authentication can be configured: 
+* By default there is no username or password required to login to Portainer.
 * [Portainer Configuration](https://portainer.readthedocs.io/en/stable/configuration.html)
