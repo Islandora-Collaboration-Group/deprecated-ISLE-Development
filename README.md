@@ -43,7 +43,7 @@ Docker Image GitHub Repos that comprise this stack:
 
 ## Important Notes, Ports, Pages and Usernames/Passwords
 @SEE: https://github.com/Islandora-Collaboration-Group/ISLE  
-There are additional steps such as adding isle-localdomain to your etc/hosts which will not be covered here. 
+[Portainer](https://portainer.io/) is a GUI for managing Docker containers. It has been built into ISLE for your convenience.
 
 ### Locations, Ports:
 * Make sure your /etc/hosts points isle.localdomain to 127.0.0.1. See original docs on how-to.
@@ -55,7 +55,7 @@ There are additional steps such as adding isle-localdomain to your etc/hosts whi
 * Fedora is available at http://isle.localdomain/fedora OR http://localhost:8081/
 * Solr is available at http://isle.localdomain/solr OR http://localhost:8082/
 * Image Services are available at http://images.isle.localdomain OR http://localhost:8083/
-
+* Portainer is available at http://portainer.isle.localdomain OR http://localhost:9000/
 
 ### Users and Passwords
 Read as username:password
@@ -66,3 +66,7 @@ Islandora (Drupal) user and pass (default):
 All Tomcat services come with the default users and passwords:
 * `admin`:`isle_admin`
 * `manager`:`isle_manager`
+
+Portainer's authentication can be configured: 
+* By default there is no username or password required to login to Portainer.
+* [Portainer Configuration](https://portainer.readthedocs.io/en/stable/configuration.html)
