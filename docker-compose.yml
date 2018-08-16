@@ -10,6 +10,8 @@ services:
     command: -H unix:///var/run/docker.sock --no-auth
     networks:
       - isle-internal
+    ports:
+      - "9000:9000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - isle_portainer_data:/data
