@@ -93,7 +93,7 @@ services:
       - traefik.docker.network=${COMPOSE_PROJECT_NAME}_isle-internal
       - "traefik.frontend.headers.customResponseHeaders=Access-Control-Allow-Origin: *||X-Forwarded-Path: /cantaloupe" # Debug
       - "traefik.frontend.headers.customRequestHeaders=Access-Control-Allow-Origin: *||X-Forwarded-Path: /cantaloupe" # Debug
-      - "traefik.frontend.rule=Host:images.${BASE_DOMAIN}; PathPrefix: /adore-djatoka, /cantaloupe"
+      - "traefik.frontend.rule=Host:images.${BASE_DOMAIN}; PathPrefix:/, /adore-djatoka, /cantaloupe"
 
   apache:
     # build:
