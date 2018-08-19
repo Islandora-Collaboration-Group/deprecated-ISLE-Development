@@ -14,7 +14,7 @@ services:
       - "9010:9000" ## Remapped to avoid conflicts on systems/servers with portainer already running.
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - isle_portainer_data:/data
+      - isle-portainer-data:/data
     labels:
       - traefik.enable=true
       - traefik.port=9000
@@ -32,7 +32,7 @@ services:
     networks:
       - isle-internal
     volumes:
-      - db-data-ld:/var/lib/mysql
+      - isle-db-data:/var/lib/mysql
       - ./data/mysql/log:/var/log/mysql
     labels:
       - traefik.enable=false
@@ -51,7 +51,7 @@ services:
       - mysql
       - solr
     volumes:
-      - fed-data-ld:/usr/local/fedora/data
+      - isle-fedora-data:/usr/local/fedora/data
       - ./data/fedora/log/fedora:/usr/local/fedora/server/logs
       - ./data/fedora/log/tomcat:/usr/local/tomcat/logs
     labels:
@@ -71,7 +71,7 @@ services:
     depends_on:
       - mysql
     volumes:
-      - solr-data-ld:/usr/local/solr
+      - isle-solr-data:/usr/local/solr
       - ./data/solr/logs:/usr/local/tomcat/logs
     labels:
       - traefik.docker.network=${COMPOSE_PROJECT_NAME}_isle-internal
@@ -113,7 +113,7 @@ services:
       - solr
       - traefik
     volumes:
-      - apache-data-ld:/var/www/html
+      - isle-apache-data:/var/www/html
       - ./data/apache/log:/var/log/apache2
     labels:
       - traefik.docker.network=${COMPOSE_PROJECT_NAME}_isle-internal
@@ -147,8 +147,8 @@ networks:
   isle-external:
 
 volumes:
-  db-data-ld:
-  fed-data-ld:
-  solr-data-ld:
-  apache-data-ld:
-  isle_portainer_data:
+  isle-db-data:
+  isle-fedora-data:
+  isle-solr-data:
+  isle-apache-data:
+  isle-portainer-data:
