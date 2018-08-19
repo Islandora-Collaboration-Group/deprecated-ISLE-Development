@@ -6,12 +6,12 @@ version: '3'
 services:
   isle-portainer: ## Renamed to avoid conflicts on systems/servers with portainer already running.
     image: portainer/portainer
-    container_name: isle-portainer
+    container_name: isle-portainer-${CONTAINER_SHORT_ID}
     command: -H unix:///var/run/docker.sock --no-auth
     networks:
       - isle-internal
     ports:
-      - "9000:9000"
+      - "9010:9000" ## Remapped to avoid conflicts on systems/servers with portainer already running.
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - isle_portainer_data:/data
@@ -26,7 +26,7 @@ services:
     # build:
     #   context: ./images/mysql
     image: islandoracollabgroup/isle-mysql:latest
-    container_name: isle-mysql-ld
+    container_name: isle-mysql-${CONTAINER_SHORT_ID}
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     networks:
@@ -40,8 +40,8 @@ services:
   fedora:
     # build:
     #   context: ./images/isle-fedora
-    image: benjaminrosner/isle-fedora:development
-    container_name: isle-fedora-ld
+    image: benjaminrosner/isle-fedora:latest
+    container_name: isle-fedora-${CONTAINER_SHORT_ID}
     networks:
       - isle-internal
     ports:
@@ -61,8 +61,8 @@ services:
   solr:
     # build:
     #   context: ./images/isle-solr
-    image: benjaminrosner/isle-solr:development
-    container_name: isle-solr-ld
+    image: benjaminrosner/isle-solr:latest
+    container_name: isle-solr-${CONTAINER_SHORT_ID}
     networks:
       - isle-internal
     ports:
@@ -80,8 +80,8 @@ services:
   image-services:
     # build:
     #   context: ./images/isle-imageservices
-    image: benjaminrosner/isle-imageservices:development
-    container_name: isle-images
+    image: benjaminrosner/isle-imageservices:latest
+    container_name: isle-images-${CONTAINER_SHORT_ID}
     networks:
       - isle-internal
     depends_on:
@@ -95,13 +95,13 @@ services:
       - traefik.docker.network=${COMPOSE_PROJECT_NAME}_isle-internal
       - "traefik.frontend.headers.customResponseHeaders=Access-Control-Allow-Origin: *||X-Forwarded-Path: /cantaloupe" # Debug
       - "traefik.frontend.headers.customRequestHeaders=Access-Control-Allow-Origin: *||X-Forwarded-Path: /cantaloupe" # Debug
-      - "traefik.frontend.rule=Host:images.${BASE_DOMAIN}; PathPrefix:/, /adore-djatoka, /cantaloupe"
+      - "traefik.frontend.rule=Host:images.${BASE_DOMAIN}; PathPrefix: /, /adore-djatoka, /cantaloupe"
 
   apache:
     # build:
     #   context: ./images/isle-apache
-    image: benjaminrosner/isle-apache:development
-    container_name: isle-apache-ld
+    image: benjaminrosner/isle-apache:latest
+    container_name: isle-apache-${CONTAINER_SHORT_ID}
     environment:
       - PULL_ISLE_BUILD_TOOLS=true # Defaults to true.
     networks:

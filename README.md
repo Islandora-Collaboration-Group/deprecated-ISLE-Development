@@ -14,6 +14,7 @@ Docker Image GitHub Repos that comprise this stack:
 * Docker-compose
 * Git
 * Time required < 30 minutes.
+* **Windows Users**: Please open the .env and uncomment `COMPOSE_CONVERT_WINDOWS_PATHS=1`
 
 ## Quick Start
 1. Please read: [ISLE Release Candidate (RC): How to Test](https://docs.google.com/document/d/1VUiI_bXo6SLqqUjmInVjBg3-cs40Vj7I_92txjFUoQg/edit#heading=h.1e4943m60lsh)
@@ -43,7 +44,9 @@ Docker Image GitHub Repos that comprise this stack:
 
 ## Important Notes, Ports, Pages and Usernames/Passwords
 @SEE: https://github.com/Islandora-Collaboration-Group/ISLE  
-[Portainer](https://portainer.io/) is a GUI for managing Docker containers. It has been built into ISLE for your convenience.
+[Portainer](https://portainer.io/) is a GUI for managing Docker containers. It has been built into ISLE for your convenience.  
+**Windows Users**: Please open the .env and uncomment `COMPOSE_CONVERT_WINDOWS_PATHS=1`  
+**Note that both HTTP and HTTPS work** Please accept the self-signed certificate for testing when using HTTPS.
 
 ### Locations, Ports:
 * Make sure your /etc/hosts points isle.localdomain to 127.0.0.1. See original docs on how-to.
@@ -55,7 +58,7 @@ Docker Image GitHub Repos that comprise this stack:
 * Fedora is available at http://isle.localdomain/fedora OR http://localhost:8081/
 * Solr is available at http://isle.localdomain/solr OR http://localhost:8082/
 * Image Services are available at http://images.isle.localdomain OR http://localhost:8083/
-* Portainer is available at http://portainer.isle.localdomain OR http://localhost:9000/
+* Portainer is available at http://portainer.isle.localdomain OR http://localhost:9010/
 
 ### Users and Passwords
 Read as username:password
