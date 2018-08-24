@@ -40,7 +40,7 @@ services:
   fedora:
     # build:
     #   context: ./images/isle-fedora
-    image: benjaminrosner/isle-fedora:latest
+    image: benjaminrosner/isle-fedora:development
     container_name: isle-fedora-${CONTAINER_SHORT_ID}
     networks:
       - isle-internal
@@ -61,7 +61,7 @@ services:
   solr:
     # build:
     #   context: ./images/isle-solr
-    image: benjaminrosner/isle-solr:latest
+    image: benjaminrosner/isle-solr:development
     container_name: isle-solr-${CONTAINER_SHORT_ID}
     networks:
       - isle-internal
@@ -80,7 +80,7 @@ services:
   image-services:
     # build:
     #   context: ./images/isle-imageservices
-    image: benjaminrosner/isle-imageservices:latest
+    image: benjaminrosner/isle-imageservices:development
     container_name: isle-images-${CONTAINER_SHORT_ID}
     networks:
       - isle-internal
@@ -100,7 +100,7 @@ services:
   apache:
     # build:
     #   context: ./images/isle-apache
-    image: benjaminrosner/isle-apache:latest
+    image: benjaminrosner/isle-apache:development
     container_name: isle-apache-${CONTAINER_SHORT_ID}
     environment:
       - PULL_ISLE_BUILD_TOOLS=true # Defaults to true.
