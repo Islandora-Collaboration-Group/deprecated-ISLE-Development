@@ -18,28 +18,38 @@ Docker Image GitHub Repos that comprise this stack:
 
 ## Quick Start
 1. Please read: [ISLE Release Candidate (RC): How to Test](https://docs.google.com/document/d/1VUiI_bXo6SLqqUjmInVjBg3-cs40Vj7I_92txjFUoQg/edit#heading=h.1e4943m60lsh)
-2. Clone this repo <!-- OR wget the docker-compose.yml -->
+2. Clone this repo
     - `git clone https://github.com/Islandora-Collaboration-Group/ISLE-Development.git` 
-    <!-- - `wget https://github.com/Islandora-Collaboration-Group/ISLE-Development/blob/development/docker-compose.yml` -->
-<!-- 1. Clone this repository recursively. In terminal:
-    - `git clone --recurse-submodules https://github.com/Islandora-Collaboration-Group/ISLE-Development.git`
-2. Change directory to the cloned directory:
-    - `cd ISLE-development` (by default)
-3. Build the tomcat-base image locally:
-    - `docker build -t isle-tomcat:latest --rm images/isle-tomcat/` 
-4. When isle-tomcat is complete, build the rest of the refactored stack:
-    - `docker-compose build` -->
 3. Change directory to the cloned directory:
     - `cd ISLE-development` (by default)
-    <!-- - create a folder and move the docker-compose.yml there! -->
 4. Pull the latest images:
     - `docker-compose pull`
 5. Launch the ISLE preRC stack for testing:
     - `docker-compose up -d`
-6. Install Islandora on the isle-apache-ld container:
+6. Please wait a few moments for the stack to fully come up.  Approximately 3-5 minutes.
+7. Install Islandora on the isle-apache-ld container:
     - `docker exec -it isle-apache-ld bash /utility-scripts/isle_drupal_build_tools/isle_islandora_installer.sh`
-7. To wrap up testing:
+8. To wrap up testing:
     - In the folder with the docker-compose.yml `docker-compose down -v`
+
+## Quick Cleanup 
+If you have been testing the stack extensively you will want to `prune` your Docker daemon as you test.
+1. In the folder with the `docker-compose.yml`
+    - `docker-compose down -v`
+2. If you have no other _stopped_ services that you do not want `pruned` on Docker:
+    - **Note running containers are NOT pruned.**
+    - `docker system prune --all`
+    - answer `Y` to remove all unused volumes, images, and networks.
+- OR
+2. If you cannot `prune`:
+    - `docker ps` and take note of any running ISLE services:
+        - `docker down {list of all the running ISLE services, tab auto-complete may work}` (You may add as many containers as needed in one command.)
+    - `docker image ls` and take note of all ISLE-related images:
+        - `docker image rm {list of all images to be removed, tab auto-complete may work}` (Again, you may add as many as needed.)
+    - `docker volume ls` and take note of all ISLE-related volumes:
+        - `docker volume rm {list of all volumes to be removed, tab auto-complete may work}` ...
+    - `docker network ls` and take note of all ISLE-related networks:
+        - `docker network rm {list of all networks to be removed, tab auto-complete may work}` ...
 
 
 ## Important Notes, Ports, Pages and Usernames/Passwords
@@ -55,10 +65,10 @@ Docker Image GitHub Repos that comprise this stack:
     - `docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' isle-apache-ld`
     - Copy the IP and browse to it.  `http://{IP}/`
 * Traefik is available at http://admin.isle.localdomain OR http://localhost:8080/
+* Portainer is available at http://portainer.isle.localdomain OR http://localhost:9010/
 * Fedora is available at http://isle.localdomain/fedora OR http://localhost:8081/
 * Solr is available at http://isle.localdomain/solr OR http://localhost:8082/
 * Image Services are available at http://images.isle.localdomain OR http://localhost:8083/
-* Portainer is available at http://portainer.isle.localdomain OR http://localhost:9010/
 
 ### Users and Passwords
 Read as username:password
