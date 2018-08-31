@@ -1,7 +1,7 @@
 version: '3'
 
 #### docker-compose up -d;
-## Updated 2018-08-31 - Release 1.1
+## Updated 2018-08-31 - Release 1.1.0
 
 services:
   isle-portainer: ## Renamed to avoid conflicts on systems/servers with portainer already running.
